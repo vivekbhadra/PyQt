@@ -40,7 +40,11 @@ class GUI(QWidget):
         self.show()
         
     def parseFile(self):
-        name = self.getFileName()
+        filename = self.getFileName()
+        with open(filename, newline='') as csvfile:
+            spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+            for row in spamreader:
+                print(', '.join(row))
         
     def getFileName(self):
         return self.lineEdit.text()
