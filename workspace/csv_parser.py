@@ -12,13 +12,8 @@ class GUI(QWidget):
     def initUI(self):
         self.setWindowTitle("FinMin")
         self.resize(400, 600)
-        #self.move(10, 20)
-        
-        #layout = QVBoxLayout()
-        #self.setLayout(layout)
         
         label = QLabel()
-        #label.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         label.setText("Select File: ")  
         
         self.lineEdit = QLineEdit()
@@ -35,11 +30,11 @@ class GUI(QWidget):
         self.setLayout(gLayout)
         
         calcButton  = QPushButton()
-        okButton.setText("Calculate")
-        okButton.clicked.connect(self.parseFile)
+        calcButton.setText("Calculate")
+        calcButton.clicked.connect(self.parseFile)
         
         self.label2 = QLabel()
-        gLayout.addWidget(okButton, 1, 0)
+        gLayout.addWidget(calcButton, 1, 0)
         gLayout.addWidget(self.label2, 1, 1)
           
         self.show()
@@ -47,14 +42,11 @@ class GUI(QWidget):
     def parseFile(self):
         name = self.getFileName()
         
-        
     def getFileName(self):
         return self.lineEdit.text()
         
     def createLabel(self):
         label = QLabel()
-        #label.setAlignment(Qt.AlignTop | Qt.AlignLeft)
-        #label.setIndent(10)
         label.setText("File Name") 
         return label
         
@@ -73,9 +65,18 @@ class GUI(QWidget):
         
         if fileName:
             self.lineEdit.setText(fileName)
+        
+    def openFileNameDialog(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","CSV Files (*.csv)", options=options)
+        
+        if fileName:
+            self.lineEdit.setText(fileName)
                     
 if __name__ == "__main__": 
     app = QApplication(sys.argv)
     gui = GUI()
     
+    #
     sys.exit(app.exec_())
