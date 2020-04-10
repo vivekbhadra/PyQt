@@ -30,7 +30,7 @@ class GUI(QWidget):
         self.setLayout(gLayout)
         
         calcButton  = QPushButton()
-        calcButton.setText("Calculate")
+        calcButton.setText("Run")
         calcButton.clicked.connect(self.parseFile)
         
         self.label2 = QLabel()
@@ -41,10 +41,21 @@ class GUI(QWidget):
         
     def parseFile(self):
         filename = self.getFileName()
+        #with open(filename, newline='') as csvfile:
+            #readerVal = csv.reader(csvfile, delimiter=' ', quotechar='|')
+            #for row in readerVal:
+                #print(', '.join(row))
         with open(filename, newline='') as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-            for row in spamreader:
-                print(', '.join(row))
+            reader = csv.DictReader(csvfile)
+            
+            total = 0.0
+            for row in reader:
+                strVal = row['Paid In']
+                if strVal:
+                    fltVal = float(strVal)
+                    total = total + fltVal
+            print(total)
+            
         
     def getFileName(self):
         return self.lineEdit.text()
