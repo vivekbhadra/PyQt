@@ -25,7 +25,7 @@ class GUI(QWidget):
         gLayout.addWidget(label, 0, 0)
         gLayout.addWidget(browseButton, 0, 1)
         
-        self.textLabel = QLabel()
+        self.textLabel = QLabel(margin=20)
         gLayout.addWidget(self.textLabel, 1, 0)
         
         runButton  = QPushButton()
@@ -45,19 +45,23 @@ class GUI(QWidget):
         
     def parseFile(self):
         if self.fileNames:
+            grandTotal = 0.0
+            vat = 0.0
+            fileTotal = 0.0
             for filename in self.fileNames:
                 with open(filename, newline='') as csvfile:
+                    print(filename)
                     reader = csv.DictReader(csvfile)
                     
-                    total = 0.0
                     for row in reader:
                         strVal = row['Paid In']
                         if strVal:
                             fltVal = float(strVal)
-                            total = total + fltVal
-                    vat = total * 0.165
-                    print("VAT: ") 
-                    print(vat)
+                            fileTotal = fileTotal + fltVal
+                    print(fileTotal)
+                #vat = vat + fileTotal * 0.165
+                #print("VAT: ") 
+                #print(vat)
             
     def getFileName(self):
         return self.lineEdit.text()
@@ -70,18 +74,7 @@ class GUI(QWidget):
     def createEditLine(self):
         editBox = QLineEdit(self)
         return editBox
-        
-    #def openFileNameDialog(self):
-        #options = QFileDialog.Options()
-        #options |= QFileDialog.DontUseNativeDialog
-        #fileName, _ = QFileDialog.getOpenFileName(self,
-                                                  #"QFileDialog.getOpenFileName()", 
-                                                  #"",
-                                                  #"CSV Files (*.csv)", 
-                                                  #options=options)
-        #if fileName:
-            #self.lineEdit.setText(fileName)
-        
+            
     def openFileNameDialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
