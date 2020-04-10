@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QFileDialog, QLabel, QLineEdit, QVBoxLayout, QHBoxLayout, QGridLayout, QPushButton, QSizePolicy
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QFileDialog, QLabel, QLineEdit, QVBoxLayout, QHBoxLayout, QGridLayout, QPushButton, QSizePolicy, QTextEdit, QMessageBox
 from PyQt5.QtCore import *
 import csv
 
@@ -15,29 +15,32 @@ class GUI(QWidget):
         self.resize(400, 600)
         
         label = QLabel()
-        label.setText("Select File: ")  
+        label.setText("Please select your business bank statements ")  
         
-        self.lineEdit = QLineEdit()
-        self.lineEdit.setAlignment(Qt.AlignTop)
+        browseButton = QPushButton("Browse")
+        browseButton.clicked.connect(self.openFileNameDialog)
         
-        button = QPushButton("Browse")
-        button.clicked.connect(self.openFileNameDialog)
-        
-        gLayout = QGridLayout()
+        gLayout = QGridLayout() 
         gLayout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         gLayout.addWidget(label, 0, 0)
-        gLayout.addWidget(self.lineEdit, 0, 1)
-        gLayout.addWidget(button, 0, 2)
-        self.setLayout(gLayout)
+        gLayout.addWidget(browseButton, 0, 1)
         
-        calcButton  = QPushButton()
-        calcButton.setText("Run")
-        calcButton.clicked.connect(self.parseFile)
+        self.textLabel = QLabel()
+        gLayout.addWidget(self.textLabel, 1, 0)
         
-        self.label2 = QLabel()
-        gLayout.addWidget(calcButton, 1, 0)
-        gLayout.addWidget(self.label2, 1, 1)
-          
+        runButton  = QPushButton()
+        runButton.setText("Run")
+        runButton.clicked.connect(self.parseFile)
+        
+        hLayout = QHBoxLayout() 
+        hLayout.setAlignment(Qt.AlignBottom | Qt.AlignCenter)
+        hLayout.addWidget(runButton)
+        
+        layout = QVBoxLayout()
+        layout.addLayout(gLayout)
+        layout.addLayout(hLayout)
+        
+        self.setLayout(layout)
         self.show()
         
     def parseFile(self):
@@ -50,7 +53,6 @@ class GUI(QWidget):
                     for row in reader:
                         strVal = row['Paid In']
                         if strVal:
-                            print(strVal)
                             fltVal = float(strVal)
                             total = total + fltVal
                     vat = total * 0.165
@@ -86,9 +88,15 @@ class GUI(QWidget):
         self.fileNames, _ = QFileDialog.getOpenFileNames(self,"QFileDialog.getOpenFileName()", "","CSV Files (*.csv)", options=options)
         
         if self.fileNames:
-            #self.lineEdit.setText(fileName)
+            str = ""
             for file in self.fileNames:
-                print(file)
+                try:
+                    str = str + file + "\n"
+                except Exception as e:
+                    message = QMessageBox(f"Could not set file: {e}")
+                    message.show()
+            self.textLabel.setText(str)
+                    
                     
 if __name__ == "__main__": 
     app = QApplication(sys.argv)
