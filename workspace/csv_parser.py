@@ -47,8 +47,8 @@ class GUI(QWidget):
         if self.fileNames:
             grandTotal = 0.0
             vat = 0.0
-            fileTotal = 0.0
             for filename in self.fileNames:
+                fileTotal = 0.0
                 with open(filename, newline='') as csvfile:
                     print(filename)
                     reader = csv.DictReader(csvfile)
@@ -59,9 +59,10 @@ class GUI(QWidget):
                             fltVal = float(strVal)
                             fileTotal = fileTotal + fltVal
                     print(fileTotal)
-                #vat = vat + fileTotal * 0.165
-                #print("VAT: ") 
-                #print(vat)
+                grandTotal = grandTotal + fileTotal
+                vat = grandTotal * 0.165
+            print ("VAT: {0:.2f}".format(vat))  
+            
             
     def getFileName(self):
         return self.lineEdit.text()
