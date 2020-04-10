@@ -10,6 +10,7 @@ class GUI(QWidget):
         self.initUI()
         
     def initUI(self):
+        
         self.setWindowTitle("FinMin")
         self.resize(400, 600)
         
@@ -41,19 +42,20 @@ class GUI(QWidget):
         
     def parseFile(self):
         filename = self.getFileName()
-        with open(filename, newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            
-            total = 0.0
-            for row in reader:
-                strVal = row['Paid In']
-                if strVal:
-                    print(strVal)
-                    fltVal = float(strVal)
-                    total = total + fltVal
-            vat = total * 0.165
-            print("VAT: ") 
-            print(vat)
+        if filename:
+            with open(filename, newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
+                
+                total = 0.0
+                for row in reader:
+                    strVal = row['Paid In']
+                    if strVal:
+                        print(strVal)
+                        fltVal = float(strVal)
+                        total = total + fltVal
+                vat = total * 0.165
+                print("VAT: ") 
+                print(vat)
             
     def getFileName(self):
         return self.lineEdit.text()
@@ -67,25 +69,26 @@ class GUI(QWidget):
         editBox = QLineEdit(self)
         return editBox
         
+    #def openFileNameDialog(self):
+        #options = QFileDialog.Options()
+        #options |= QFileDialog.DontUseNativeDialog
+        #fileName, _ = QFileDialog.getOpenFileName(self,
+                                                  #"QFileDialog.getOpenFileName()", 
+                                                  #"",
+                                                  #"CSV Files (*.csv)", 
+                                                  #options=options)
+        #if fileName:
+            #self.lineEdit.setText(fileName)
+        
     def openFileNameDialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self,
-                                                  "QFileDialog.getOpenFileName()", 
-                                                  "",
-                                                  "CSV Files (*.csv)", 
-                                                  options=options)
+        self.fileNames, _ = QFileDialog.getOpenFileNames(self,"QFileDialog.getOpenFileName()", "","CSV Files (*.csv)", options=options)
         
-        if fileName:
-            self.lineEdit.setText(fileName)
-        
-    def openFileNameDialog(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","CSV Files (*.csv)", options=options)
-        
-        if fileName:
-            self.lineEdit.setText(fileName)
+        if self.fileNames:
+            #self.lineEdit.setText(fileName)
+            for file in self.fileNames:
+                print(file)
                     
 if __name__ == "__main__": 
     app = QApplication(sys.argv)
