@@ -41,21 +41,21 @@ class GUI(QWidget):
         self.show()
         
     def parseFile(self):
-        filename = self.getFileName()
-        if filename:
-            with open(filename, newline='') as csvfile:
-                reader = csv.DictReader(csvfile)
-                
-                total = 0.0
-                for row in reader:
-                    strVal = row['Paid In']
-                    if strVal:
-                        print(strVal)
-                        fltVal = float(strVal)
-                        total = total + fltVal
-                vat = total * 0.165
-                print("VAT: ") 
-                print(vat)
+        if self.fileNames:
+            for filename in self.fileNames:
+                with open(filename, newline='') as csvfile:
+                    reader = csv.DictReader(csvfile)
+                    
+                    total = 0.0
+                    for row in reader:
+                        strVal = row['Paid In']
+                        if strVal:
+                            print(strVal)
+                            fltVal = float(strVal)
+                            total = total + fltVal
+                    vat = total * 0.165
+                    print("VAT: ") 
+                    print(vat)
             
     def getFileName(self):
         return self.lineEdit.text()
