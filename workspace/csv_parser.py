@@ -8,21 +8,22 @@ class Calculations(QWidget):
     def __init__(self):
         super().__init__()
         
-        self.setWindowTitle("Tax Calculation")
-        self.resize(400, 600) 
-        self.vatlabel = QLabel("VAT")
+        # Font for field labels
         labelFont = QFont()
-        labelFont.setFamily('Impact')
+        labelFont.setFamily('Helvetica [Cronyx]')
         labelFont.setPointSize(8)
         labelFont.setWeight(QFont.DemiBold)
         
+        # Font for field values
         valueFont = QFont()
-        valueFont.setFamily('Impact')
+        valueFont.setFamily('Courier')
         valueFont.setPointSize(8)
-        valueFont.setWeight(QFont.Courier)
+        valueFont.setWeight(QFont.Courier)        
         
+        self.setWindowTitle("Tax Calculation")
+        self.resize(400, 600) 
+        self.vatlabel = QLabel("VAT")
         self.vatlabel.setFont(labelFont)
-        
         
         self.vatvalue = QLabel()
         self.vatvalue.setFont(valueFont)
@@ -32,7 +33,6 @@ class Calculations(QWidget):
         hLayout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         
         vLayout = QVBoxLayout()
-        #vLayout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         vLayout.addLayout(hLayout)
         
         self.setLayout(vLayout)
