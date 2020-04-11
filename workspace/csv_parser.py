@@ -3,10 +3,26 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QFileDi
 from PyQt5.QtCore import *
 import csv
 
+class Calculations(QWidget):
+    def __init__(self):
+        super().__init__()
+        
+        self.setWindowTitle("Tax Calculation")
+        self.resize(400, 600) 
+        self.slabel = QLabel()
+        
+        vLayout = QVBoxLayout()
+        vLayout.setAlignment(Qt.AlignCenter | Qt.AlignLeft)
+        vLayout.addWidget(self.slabel)
+        
+        self.setLayout(vLayout)
+        
+        
 class GUI(QWidget):
     def __init__(self):
         super().__init__()
         
+        self.dialog = Calculations()
         self.initUI()
         
     def initUI(self):
@@ -61,7 +77,9 @@ class GUI(QWidget):
                     print(fileTotal)
                 grandTotal = grandTotal + fileTotal
                 vat = grandTotal * 0.165
-            print ("VAT: {0:.2f}".format(vat))  
+            print ("VAT: {0:.2f}".format(vat))
+            self.dialog.slabel.setText(str(vat))
+            self.dialog.show()
             
             
     def getFileName(self):
