@@ -9,11 +9,11 @@ class Calculations(QWidget):
         
         self.setWindowTitle("Tax Calculation")
         self.resize(400, 600) 
-        self.slabel = QLabel()
+        self.vatlabel = QLabel()
         
         vLayout = QVBoxLayout()
-        vLayout.setAlignment(Qt.AlignCenter | Qt.AlignLeft)
-        vLayout.addWidget(self.slabel)
+        vLayout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        vLayout.addWidget(self.vatlabel)
         
         self.setLayout(vLayout)
         
@@ -57,7 +57,9 @@ class GUI(QWidget):
         layout.addLayout(hLayout)
         
         self.setLayout(layout)
+        
         self.show()
+        QMessageBox.about(self, "About FinMin Evaluation version", "Welcome to FinMin Evaluation version")
         
     def parseFile(self):
         if self.fileNames:
@@ -78,12 +80,8 @@ class GUI(QWidget):
                 grandTotal = grandTotal + fileTotal
                 vat = grandTotal * 0.165
             print ("VAT: {0:.2f}".format(vat))
-            self.dialog.slabel.setText(str(vat))
+            self.dialog.vatlabel.setText(str(vat))
             self.dialog.show()
-            
-            
-    def getFileName(self):
-        return self.lineEdit.text()
         
     def createLabel(self):
         label = QLabel()
