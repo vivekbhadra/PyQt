@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QAction, QFileDialog, QLabel, QLineEdit, QVBoxLayout, QHBoxLayout, QGridLayout, QPushButton, QSizePolicy, QTextEdit, QMessageBox
 from PyQt5.QtCore import *
+from PyQt5.QtGui import QFont
 import csv
 
 class Calculations(QWidget):
@@ -9,11 +10,30 @@ class Calculations(QWidget):
         
         self.setWindowTitle("Tax Calculation")
         self.resize(400, 600) 
-        self.vatlabel = QLabel()
+        self.vatlabel = QLabel("VAT")
+        labelFont = QFont()
+        labelFont.setFamily('Impact')
+        labelFont.setPointSize(8)
+        labelFont.setWeight(QFont.DemiBold)
+        
+        valueFont = QFont()
+        valueFont.setFamily('Impact')
+        valueFont.setPointSize(8)
+        valueFont.setWeight(QFont.Courier)
+        
+        self.vatlabel.setFont(labelFont)
+        
+        
+        self.vatvalue = QLabel()
+        self.vatvalue.setFont(valueFont)
+        hLayout = QHBoxLayout()
+        hLayout.addWidget(self.vatlabel)
+        hLayout.addWidget(self.vatvalue)
+        hLayout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
         
         vLayout = QVBoxLayout()
-        vLayout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
-        vLayout.addWidget(self.vatlabel)
+        #vLayout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        vLayout.addLayout(hLayout)
         
         self.setLayout(vLayout)
         
@@ -59,7 +79,7 @@ class GUI(QWidget):
         self.setLayout(layout)
         
         self.show()
-        QMessageBox.about(self, "About FinMin Evaluation version", "Welcome to FinMin Evaluation version")
+        QMessageBox.about(self, "Welcome!", "Welcome to FinMin Evaluation version")
         
     def parseFile(self):
         if self.fileNames:
@@ -80,7 +100,7 @@ class GUI(QWidget):
                 grandTotal = grandTotal + fileTotal
                 vat = grandTotal * 0.165
             print ("VAT: {0:.2f}".format(vat))
-            self.dialog.vatlabel.setText(str(vat))
+            self.dialog.vatvalue.setText(str(vat))
             self.dialog.show()
         
     def createLabel(self):
