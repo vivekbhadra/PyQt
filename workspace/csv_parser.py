@@ -141,11 +141,13 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(QWidget())
         
         lBankStatements = QLabel("Business Bank Statements")
-        bankStatements = QPushButton("Upload")
+        uploadButton = QPushButton("Upload")
+        uploadButton.clicked.connect(self.openFileNameDialog)
+        
         bankStatementLayer = QHBoxLayout()
         bankStatementLayer.setAlignment(Qt.AlignTop | Qt.AlignCenter)
         bankStatementLayer.addWidget(lBankStatements)
-        bankStatementLayer.addWidget(bankStatements)
+        bankStatementLayer.addWidget(uploadButton)
         
         vatButton = QPushButton("VAT")
         
@@ -161,7 +163,24 @@ class MainWindow(QMainWindow):
         
         self.centralWidget().setLayout(vLayout)
         self.show()
-                    
+        
+    def openFileNameDialog(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        self.fileNames = []
+        self.fileNames, _ = QFileDialog.getOpenFileNames(self,"QFileDialog.getOpenFileName()", "","CSV Files (*.csv)", options=options)
+        
+        if self.fileNames:
+            str = ""
+            for file in self.fileNames:
+                try:
+                    str = str + file + "\n"
+                except Exception as e:
+                    message = QMessageBox(f"Could not set file: {e}")
+                    message.show()
+            QMessageBox.about(self, "Bank Statements", str)       
+        
+        
 if __name__ == "__main__": 
     app = QApplication(sys.argv)
     #gui = GUI()
