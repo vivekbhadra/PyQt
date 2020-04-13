@@ -140,6 +140,13 @@ class MainWindow(QMainWindow):
         
         self.setCentralWidget(QWidget())
         
+        lBankStatements = QLabel("Business Bank Statements")
+        bankStatements = QPushButton("Upload")
+        bankStatementLayer = QHBoxLayout()
+        bankStatementLayer.setAlignment(Qt.AlignTop | Qt.AlignCenter)
+        bankStatementLayer.addWidget(lBankStatements)
+        bankStatementLayer.addWidget(bankStatements)
+        
         vatButton = QPushButton("VAT")
         
         corpTaxButton = QPushButton("Corp Tax")
@@ -149,6 +156,7 @@ class MainWindow(QMainWindow):
         hLayout.addWidget(corpTaxButton)
         
         vLayout = QVBoxLayout()
+        vLayout.addLayout(bankStatementLayer)
         vLayout.addLayout(hLayout)
         
         self.centralWidget().setLayout(vLayout)
