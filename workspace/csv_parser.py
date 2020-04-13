@@ -37,7 +37,6 @@ class Calculations(QWidget):
         
         self.setLayout(vLayout)
         
-        
 class GUI(QWidget):
     def __init__(self):
         super().__init__()
@@ -126,11 +125,39 @@ class GUI(QWidget):
                     message = QMessageBox(f"Could not set file: {e}")
                     message.show()
             self.textLabel.setText(str)
-                    
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        
+        self.dialog = Calculations()
+        self.initUI()
+        
+    def initUI(self):
+        
+        self.setWindowTitle("FinMin Home")
+        self.resize(400, 250)
+        
+        self.setCentralWidget(QWidget())
+        
+        vatButton = QPushButton("VAT")
+        
+        corpTaxButton = QPushButton("Corp Tax")
+        
+        hLayout = QHBoxLayout()
+        hLayout.addWidget(vatButton)
+        hLayout.addWidget(corpTaxButton)
+        
+        vLayout = QVBoxLayout()
+        vLayout.addLayout(hLayout)
+        
+        self.centralWidget().setLayout(vLayout)
+        self.show()
                     
 if __name__ == "__main__": 
     app = QApplication(sys.argv)
-    gui = GUI()
+    #gui = GUI()
+    mainWin = MainWindow()
     
     #
     sys.exit(app.exec_())
