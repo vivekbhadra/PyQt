@@ -78,7 +78,6 @@ class GUI(QWidget):
         self.setLayout(layout)
         
         self.show()
-        QMessageBox.about(self, "Welcome!", "Welcome to FinMin Evaluation version")
         
     def parseFile(self):
         if self.fileNames:
@@ -130,6 +129,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         
+        self.fileNames = []
         self.dialog = Calculations()
         self.initUI()
         
@@ -163,11 +163,11 @@ class MainWindow(QMainWindow):
         
         self.centralWidget().setLayout(vLayout)
         self.show()
+        QMessageBox.about(self, "Welcome!", "Welcome to FinMin Evaluation version")
         
     def openFileNameDialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        self.fileNames = []
         self.fileNames, _ = QFileDialog.getOpenFileNames(self,"QFileDialog.getOpenFileName()", "","CSV Files (*.csv)", options=options)
         
         if self.fileNames:
